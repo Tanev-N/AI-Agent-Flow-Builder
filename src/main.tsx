@@ -12,9 +12,6 @@ function initDI() {
 
 initDI();
 
-
-
-
 createRoot(document.getElementById('root')!).render(
     <App />
 )
