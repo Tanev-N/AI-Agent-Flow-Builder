@@ -1,0 +1,21 @@
+.nav {
+  padding: 10px 20px;
+  background: #f5f5f5;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.link {
+  margin-right: 20px;
+  text-decoration: none;
+  color: #007bff;
+  font-weight: 500;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.linkActive {
+  color: #0056b3;
+}
