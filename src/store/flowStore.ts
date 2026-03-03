@@ -49,7 +49,7 @@ export const flowActions = {
   syncNodesFromAgents: (agents: Agent[]) => {
     flowStore.nodes = agents.map((agent) => ({
       id: agent.id,
-      type: 'custom',
+      type: 'cusAtom',
       position: { x: Math.random() * 400, y: Math.random() * 400 },
       data: {
         label: agent.name,
