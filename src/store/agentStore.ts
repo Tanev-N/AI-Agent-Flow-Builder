@@ -37,14 +37,10 @@ export const agentStore = proxy<AgentState>({
 });
 
 
-Object.defineProperty(agentStore, 'totalBudget', {
-  get: function () {
-    const calculator = DIContainer.getInstance().resolve<BudgetCalculator>('budgetCalculator');
-    return calculator.calculateTotal(this.agents);
-  },
-  enumerable: true,
-  configurable: true,
-});
+export const getTotalBudget = (): number => {
+  const calculator = DIContainer.getInstance().resolve<BudgetCalculator>('budgetCalculator');
+  return calculator.calculateTotal(agentStore.agents);
+};
 
 
 export const agentActions = {
