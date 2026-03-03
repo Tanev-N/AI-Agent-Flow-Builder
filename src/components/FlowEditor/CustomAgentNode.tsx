@@ -10,13 +10,13 @@ export const CustomAgentNode: React.FC<NodeProps<AgentNodeData>> = ({
       <Handle type="target" position={Position.Top} className={styles.handle} />
       
       <div className={styles.header}>
-        <span className={styles.icon}>🤖</span>
+        <span className={styles.icon}></span>
         <span className={styles.label}>{data.label}</span>
       </div>
       
       <div className={styles.body}>
         <div className={styles.budget}>
-          💰 {data.budget} токенов
+           {data.budget} токенов
         </div>
         <div className={data.isActive ? styles.statusActive : styles.statusInactive}>
           {data.isActive ? 'Активен' : 'Неактивен'}

@@ -1,13 +1,14 @@
 import { useCallback } from 'react';
 import {
   ReactFlow,
-  useEdgesState,
   type Connection,
   Background,
   Controls,
   MiniMap,
   type Node,
   type Edge,
+  type NodeChange,
+  type EdgeChange,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useSnapshot } from 'valtio';
@@ -27,7 +28,7 @@ export const FlowEditor: React.FC = () => {
   const nodes: Node[] = agentSnapshot.agents.map((agent) => ({
     id: agent.id,
     type: 'custom',
-    position: { x: Math.random() * 400, y: Math.random() * 400 },
+    position: agent.position || { x: 0, y: 0 },
     data: {
       label: agent.name,
       budget: agent.tokenBudget,
@@ -35,7 +36,29 @@ export const FlowEditor: React.FC = () => {
     },
   }));
 
-  const [edges, setEdges, onEdgesChange] = useEdgesState(flowSnapshot.edges);
+  const edges: Edge[] = flowSnapshot.edges;
+
+  const onNodesChange = useCallback(
+    (changes: NodeChange[]) => {
+      changes.forEach((change) => {
+        if (change.type === 'position' && change.position) {
+          agentActions.updateAgentPosition(change.id, change.position);
+        }
+      });
+    },
+    []
+  );
+
+  const onEdgesChange = useCallback(
+    (changes: EdgeChange[]) => {
+      changes.forEach((change) => {
+        if (change.type === 'remove') {
+          flowActions.removeEdge(change.id);
+        }
+      });
+    },
+    [flowSnapshot.edges]
+  );
 
   const onConnect = useCallback(
     (params: Connection) => {
@@ -74,6 +97,7 @@ export const FlowEditor: React.FC = () => {
         <ReactFlow
           nodes={nodes}
           edges={edges}
+          onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onNodesDelete={onNodesDelete}
           onConnect={onConnect}
@@ -93,7 +117,7 @@ export const FlowEditor: React.FC = () => {
       </div>
 
       <div className={styles.footer}>
-        <p>💡 Перетаскивайте узлы, соединяйте их, удаляйте через Delete</p>
+        <p>Перетаскивайте узлы, соединяйте их, удаляйте через Delete</p>
       </div>
     </div>
   );
